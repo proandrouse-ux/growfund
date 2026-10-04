@@ -18,9 +18,16 @@
         <label for="investment-period">Investment Period</label>
             <input id="investment-period" type="number" min="1" step="1">
 
-        <button>Calculate</button>
-        <p>Result:</p>
+        <button id="calculate-btn">Calculate</button>
+    </div>
+    <div class="result">
+        <h3>Result</h3>
+        <p>Principal: <span id="pricipal-result">0</span> RWF</p>
+        <p>Monthly Earnings: <span id="monthly-earnings-result">0</span> RWF</p>
+        <p>Total Earnings: <span id="total-earning-result">0</span> RWF</p>
+        <p>Maturity Value: <span id="maturity-value-result">0</span> RWF</p>
     </div>
     
+    <script src="script.js"></script>
 </body>
 </html>
