@@ -8,6 +8,12 @@ const monthlyEarningResult = document.getElementById('monthly-earnings-result');
 const totalEarningsResult = document.getElementById('total-earning-result');
 const maturityValueResult = document.getElementById('maturity-value-result');
 const errorMessage = document.getElementById('error-message');
+const historyList = document.getElementById('investment-history-list');
+const emptyHistory =document.getElementById('empty-history');
+const historyTotalInvested = document.getElementById('history-total-invested');
+const historyTotalReturns = document.getElementById('history-total-returns');
+
+let investments = [];
 
 
 calculateButton.addEventListener("click",() => {
@@ -66,30 +72,103 @@ calculateButton.addEventListener("click",() => {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
+
+    saveInvestment(
+        investmentAmount,
+        monthlyRate,
+        investmentPeriod,
+        maturityValue
+    )
 })
 
+function saveInvestment(amount, rate, period, maturityValue){
+    const investment = {
+        amount: amount,
+        rate: rate,
+        period: period,
+        maturityValue: maturityValue
+    };
+
+    investments.push(investment);
+    renderInvestmentHistory();
+    console.log(investments);
+    
+}
 
 function validateInput(){
-    investmentAmountInput.addEventListener("input", () => {
-        if(Number(investmentAmountInput.value) > 0 ) {
-            errorMessage.textContent = "Please enter a valid investment amount."
+        if(Number(investmentAmountInput.value) <= 1000 ) {
+            
+            errorMessage.textContent = "Please enter a valid investment amount." 
             return false;
         }
-    })
 
-    monthlyRateInput.addEventListener("input", () => {
-        if (Number(monthlyRateInput.value) > 0 ) {
+        if (Number(monthlyRateInput.value) < 0 ) {
             errorMessage.textContent = "Please enter a valid monthly rate."
             return false;
         }
-    })
 
-    investmentPeriodInput.addEventListener("input", () => {
-        if (Number(investmentPeriodInput.value) > 0 ) {
+        if (Number(investmentPeriodInput.value) <= 0 ) {
             errorMessage.textContent = "Please enter a valid investment period";
             return false;
         }
-    })
-
+        errorMessage.textContent = "";
     return true;
+}
+
+investmentAmountInput.addEventListener("input", () => {
+    
+    if (errorMessage.textContent !== "") {
+        validateInput();
+    }
+})
+
+function renderInvestmentHistory(){
+    // clear the previous history
+    historyList.replaceChildren();
+
+    // show empty message if there are no investment
+    emptyHistory.hidden = investments.length > 0;
+
+    // calculate the summary total
+    let totalInvested = 0;
+    let totalReturns = 0;
+
+    investments.forEach((investment, index) => {
+        totalInvested += investment.amount;
+
+        const profit = investment.maturityValue - investment.amount;
+        totalReturns += profit;
+
+        // create a card for each investment
+        const investmentCard = document.createElement('div');
+        investmentCard.classList.add("investment-card");
+
+        investmentCard.textContent = `Amount: ${investment.amount.toLocaleString()} RWF | `+ 
+        `Rate: ${investment.rate}% | `+
+        `Period: ${investment.period} months | `+
+        `Maturity: ${investment.maturityValue.toLocaleString()} RWF`;
+
+        // button to delete each investment history separately
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+
+        deleteButton.addEventListener('click', () => {
+            deleteInvestment(index);
+        })
+
+        investmentCard.appendChild(deleteButton);
+        historyList.appendChild(investmentCard)
+    });
+
+    // Update summary
+    historyTotalInvested.textContent = totalInvested.toLocaleString();
+    historyTotalReturns.textContent = totalReturns.toLocaleString();
+}
+
+function deleteInvestment(index) {
+    investments.splice(index, 1);
+
+    renderInvestmentHistory();
+    console.log(investments);
+    
 }

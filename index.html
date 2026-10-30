@@ -7,27 +7,50 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="simulator">
-        <h2>Investment Simulator</h2>
-        <label for="investment-amount">Investment Amount</label>
-            <input id="investment-amount" type="number" min="1000" step="100">
+    <main class="simulator">
+        <div >
+            <h2>Investment Simulator</h2>
+            <label for="investment-amount">Investment Amount</label>
+                <input id="investment-amount" type="number" min="1000" step="100">
 
-        <label for="monthly-rate">Monthly Rate</label>
-            <input id="monthly-rate" type="number" min="0" step="0.1">
+            <label for="monthly-rate">Monthly Rate</label>
+                <input id="monthly-rate" type="number" min="0" step="0.1">
 
-        <label for="investment-period">Investment Period</label>
-            <input id="investment-period" type="number" min="1" step="1">
+            <label for="investment-period">Investment Period</label>
+                <input id="investment-period" type="number" min="1" step="1">
 
-        <button id="calculate-btn">Calculate</button>
-        <p id="error-message"></p>
-    </div>
-    <div class="result">
-        <h3>Result</h3>
-        <p>Principal: <span id="pricipal-result">0.00</span> RWF</p>
-        <p>Monthly Earnings: <span id="monthly-earnings-result">0.00</span> RWF</p>
-        <p>Total Earnings: <span id="total-earning-result">0.00</span> RWF</p>
-        <p>Maturity Value: <span id="maturity-value-result">0.00</span> RWF</p>
-    </div>
+            <button id="calculate-btn">Calculate</button>
+            <p id="error-message"></p>
+        </div>
+        <div class="result">
+            <h3>Result</h3>
+            <p>Principal: <span id="pricipal-result">0.00</span> RWF</p>
+            <p>Monthly Earnings: <span id="monthly-earnings-result">0.00</span> RWF</p>
+            <p>Total Earnings: <span id="total-earning-result">0.00</span> RWF</p>
+            <p>Maturity Value: <span id="maturity-value-result">0.00</span> RWF</p>
+        </div>
+        <section class="investment-history">
+            <h2>Investment History</h2>
+
+            <p id="empty-history">
+                No investment saves yet.
+            </p>
+
+            <div id="investment-history-list"></div>
+
+            <div class="history-summary">
+                <p>
+                    Total Invested:
+                    <span id="history-total-invested">0.00</span>
+                </p>
+
+                <p>
+                    Total Expected Returns:
+                    <span id="history-total-returns">0.00</span>
+                </p>
+            </div>
+        </section>
+    </main>
     
     <script src="script.js"></script>
 </body>
